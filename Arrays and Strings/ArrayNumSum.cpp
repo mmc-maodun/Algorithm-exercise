@@ -1,44 +1,127 @@
-/****************************************************************************************************
-ÌâÄ¿£ºÊäÈëÒ»¸öÒÑ¾­°´ÉıĞòÅÅĞò¹ıµÄÊı×éºÍÒ»¸öÊı×Ö£¬ÔÚÊı×éÖĞ²éÕÒÁ½¸öÊı£¬Ê¹µÃËüÃÇµÄºÍÕıºÃÊÇÊäÈëµÄÄÇ¸öÊı×Ö¡£
-ÒªÇóÊ±¼ä¸´ÔÓ¶ÈÊÇO(n)¡£Èç¹ûÓĞ¶à¶ÔÊı×ÖµÄºÍµÈÓÚÊäÈëµÄÊı×Ö£¬Êä³öÈÎÒâÒ»¶Ô¼´¿É¡£
-ÀıÈçÊäÈëÊı×é1¡¢2¡¢4¡¢7¡¢11¡¢15ºÍÊı×Ö15¡£ÓÉÓÚ4+11=15£¬Òò´ËÊä³ö4ºÍ11¡£
-*****************************************************************************************************/
+/*******************************
+é¢˜ç›®ï¼šä¸€ä¸ªæ•°ç»„ä¸­çš„å…ƒç´ æœ‰æ­£æœ‰è´Ÿï¼Œ
+æ±‚è¯¥æ•°ç»„ä¸­æœ€å¤§è¿ç»­å­æ•°ç»„çš„å’Œ
+*******************************/
 #include<stdio.h>
 
 /*
-ÔÚÉıĞòÊı×éAÖĞÕÒ³öºÍÎªsumµÄÈÎÒâÁ½¸öÔªËØ£¬±£´æÔÚaºÍbÖĞ
+å¸¸è§„æ–¹æ³•,æ—¶é—´å¤æ‚åº¦Oï¼ˆn*nï¼‰
+å…ˆä»ç¬¬ä¸€ä¸ªå…ƒç´ å¼€å§‹å‘åç´¯åŠ ï¼Œ
+æ¯æ¬¡ç´¯åŠ åä¸ä¹‹å‰çš„å’Œæ¯”è¾ƒï¼Œä¿ç•™æœ€å¤§å€¼ï¼Œ
+å†ä»ç¬¬äºŒä¸ªå…ƒç´ å¼€å§‹å‘åç´¯åŠ ï¼Œä»¥æ­¤ç±»æ¨ã€‚
 */
-bool FindTwoNumSum(int *A,int len,int sum,int *a,int *b)
+int MaxSubSum1(int *arr,int len)
 {
-	if(A==NULL || len<2)
-		return false;
-	int low = 0;
-	int high = len-1;
-	while(low<high)
+	int i,j;
+	int MaxSum = 0;
+	//æ¯æ¬¡å¼€å§‹ç´¯åŠ çš„èµ·å§‹ä½ç½®çš„å¾ªç¯
+	for(i=0;i<len;i++)
 	{
-		if(A[low]+A[high] == sum)
+		int CurSum = 0;
+		//å‘åç´¯åŠ çš„å¾ªç¯
+		for(j=i;j<len;j++)
 		{
-			*a = A[low];
-			*b = A[high];
-			return true;
+			CurSum += arr[j];
+			if(CurSum > MaxSum)
+				MaxSum = CurSum;
 		}
-		else if(A[low]+A[high] < sum)
-			low++;
-		else
-			high--;
 	}
-	return false;
+	return MaxSum;
 }
+
+/*
+æ±‚ä¸‰ä¸ªæ•°ä¸­çš„æœ€å¤§å€¼
+*/
+int Max3(int a,int b,int c)
+{
+	int Max = a;
+	if(b > Max)
+		Max = b;
+	if(c > Max)
+		Max = c;
+	return Max;
+}
+
+/*
+æ¬¡ä¼˜ç®—æ³•ï¼Œé‡‡ç”¨åˆ†æ²»ç­–ç•¥
+*/
+int MaxSubSum2(int *arr,int left,int right)
+{
+	int MaxLeftSum,MaxRightSum;	//å·¦å³è¾¹çš„æœ€å¤§å’Œ
+	int MaxLeftBorderSum,MaxRightBorderSum;	//å«ä¸­é—´è¾¹ç•Œçš„å·¦å³éƒ¨åˆ†æœ€å¤§å’Œ
+	int LeftBorderSum,RightBorderSum;	//å«ä¸­é—´è¾¹ç•Œçš„å·¦å³éƒ¨åˆ†å½“å‰å’Œ
+	int i,center;
+
+	//é€’å½’åˆ°æœ€åçš„åŸºæœ¬æƒ…å†µ
+	if(left == right)
+		if(arr[left]>0)
+			return arr[left];
+		else
+			return 0;
+
+	//æ±‚å«ä¸­é—´è¾¹ç•Œçš„å·¦å³éƒ¨åˆ†çš„æœ€å¤§å€¼
+	center = (left + right)/2;
+	MaxLeftBorderSum = 0;
+	LeftBorderSum = 0;
+	for(i=center;i>=left;i--)
+	{
+		LeftBorderSum += arr[i];
+		if(LeftBorderSum > MaxLeftBorderSum)
+			MaxLeftBorderSum = LeftBorderSum;
+	}
+	MaxRightBorderSum = 0;
+	RightBorderSum = 0;
+	for(i=center+1;i<=right;i++)
+	{
+		RightBorderSum += arr[i];
+		if(RightBorderSum > MaxRightBorderSum)
+			MaxRightBorderSum = RightBorderSum;
+	}
+
+	//é€’å½’æ±‚å·¦å³éƒ¨åˆ†æœ€å¤§å€¼
+	MaxLeftSum = MaxSubSum2(arr,left,center);
+	MaxRightSum = MaxSubSum2(arr,center+1,right);
+
+	//è¿”å›ä¸‰è€…ä¸­çš„æœ€å¤§å€¼
+	return Max3(MaxLeftSum,MaxRightSum,MaxLeftBorderSum+MaxRightBorderSum);
+}
+
+/*
+å°†åˆ†æ²»ç­–ç•¥å®ç°çš„ç®—æ³•å°è£…èµ·æ¥
+*/
+int MaxSubSum2_1(int *arr,int len)
+{
+	return MaxSubSum2(arr,0,len-1);
+}
+
+/*
+æœ€ä¼˜æ–¹æ³•ï¼Œæ—¶é—´å¤æ‚åº¦Oï¼ˆnï¼‰
+å’Œæœ€å¤§çš„å­åºåˆ—çš„ç¬¬ä¸€ä¸ªå…ƒç´ è‚¯å®šæ˜¯æ­£æ•°
+å› ä¸ºå…ƒç´ æœ‰æ­£æœ‰è´Ÿï¼Œå› æ­¤å­åºåˆ—çš„æœ€å¤§å’Œä¸€å®šå¤§äº0
+*/
+int MaxSubSum3(int *arr,int len)
+{
+	int i;
+	int MaxSum = 0;
+	int CurSum = 0;
+	for(i=0;i<len;i++)
+	{
+		CurSum += arr[i];
+		if(CurSum > MaxSum)
+			MaxSum = CurSum;
+		//å¦‚æœç´¯åŠ å’Œå‡ºç°å°äº0çš„æƒ…å†µï¼Œ
+		//åˆ™å’Œæœ€å¤§çš„å­åºåˆ—è‚¯å®šä¸å¯èƒ½åŒ…å«å‰é¢çš„å…ƒç´ ï¼Œ
+		//è¿™æ—¶å°†ç´¯åŠ å’Œç½®0ï¼Œä»ä¸‹ä¸ªå…ƒç´ é‡æ–°å¼€å§‹ç´¯åŠ 
+		if(CurSum < 0)
+			CurSum = 0;
+	}
+	return MaxSum;
+}
+
 
 int main()
 {
-	int A[] = {1,3,7,9,12,15,17,18,19,20};
-	int len = 10;
-	int sum = 24;
-	int a,b;
-	if(FindTwoNumSum(A,len,sum,&a,&b))
-		printf("Find two nums,they are:\n%d and %d\n",a,b);
-	else
-		printf("Not find\n");
+	int arr[] = {2,4,-7,5,2,-1,2,-4,3};
+	printf("å­åºåˆ—çš„æœ€å¤§å’Œä¸ºï¼š%d\n",MaxSubSum2_1(arr,9));
 	return 0;
 }

@@ -1,20 +1,24 @@
+/*******************************
+题目：一个数组中的元素有正有负，
+求该数组中最大连续子数组的和
+*******************************/
 #include<stdio.h>
 
 /*
-���淽��,ʱ�临�Ӷ�O��n*n��
-�ȴӵ�һ��Ԫ�ؿ�ʼ����ۼӣ�
-ÿ���ۼӺ���֮ǰ�ĺͱȽϣ��������ֵ��
-�ٴӵڶ���Ԫ�ؿ�ʼ����ۼӣ��Դ����ơ�
+常规方法,时间复杂度O（n*n）
+先从第一个元素开始向后累加，
+每次累加后与之前的和比较，保留最大值，
+再从第二个元素开始向后累加，以此类推。
 */
 int MaxSubSum1(int *arr,int len)
 {
 	int i,j;
 	int MaxSum = 0;
-	//ÿ�ο�ʼ�ۼӵ���ʼλ�õ�ѭ��
+	//每次开始累加的起始位置的循环
 	for(i=0;i<len;i++)
 	{
 		int CurSum = 0;
-		//����ۼӵ�ѭ��
+		//向后累加的循环
 		for(j=i;j<len;j++)
 		{
 			CurSum += arr[j];
@@ -26,7 +30,7 @@ int MaxSubSum1(int *arr,int len)
 }
 
 /*
-���������е����ֵ
+求三个数中的最大值
 */
 int Max3(int a,int b,int c)
 {
@@ -39,23 +43,23 @@ int Max3(int a,int b,int c)
 }
 
 /*
-�����㷨�����÷��β���
+次优算法，采用分治策略
 */
 int MaxSubSum2(int *arr,int left,int right)
 {
-	int MaxLeftSum,MaxRightSum;	//���ұߵ�����
-	int MaxLeftBorderSum,MaxRightBorderSum;	//���м�߽�����Ҳ�������
-	int LeftBorderSum,RightBorderSum;	//���м�߽�����Ҳ��ֵ�ǰ��
+	int MaxLeftSum,MaxRightSum;	//左右边的最大和
+	int MaxLeftBorderSum,MaxRightBorderSum;	//含中间边界的左右部分最大和
+	int LeftBorderSum,RightBorderSum;	//含中间边界的左右部分当前和
 	int i,center;
 
-	//�ݹ鵽���Ļ������
+	//递归到最后的基本情况
 	if(left == right)
 		if(arr[left]>0)
 			return arr[left];
 		else
 			return 0;
 
-	//���м�߽�����Ҳ��ֵ����ֵ
+	//求含中间边界的左右部分的最大值
 	center = (left + right)/2;
 	MaxLeftBorderSum = 0;
 	LeftBorderSum = 0;
@@ -74,16 +78,16 @@ int MaxSubSum2(int *arr,int left,int right)
 			MaxRightBorderSum = RightBorderSum;
 	}
 
-	//�ݹ������Ҳ������ֵ
+	//递归求左右部分最大值
 	MaxLeftSum = MaxSubSum2(arr,left,center);
 	MaxRightSum = MaxSubSum2(arr,center+1,right);
 
-	//���������е����ֵ
+	//返回三者中的最大值
 	return Max3(MaxLeftSum,MaxRightSum,MaxLeftBorderSum+MaxRightBorderSum);
 }
 
 /*
-����֧����ʵ�ֵ��㷨��װ����
+将分治策略实现的算法封装起来
 */
 int MaxSubSum2_1(int *arr,int len)
 {
@@ -91,9 +95,9 @@ int MaxSubSum2_1(int *arr,int len)
 }
 
 /*
-���ŷ�����ʱ�临�Ӷ�O��n��
-�����������еĵ�һ��Ԫ�ؿ϶�������
-��ΪԪ�������и�����������е�����һ������0
+最优方法，时间复杂度O（n）
+和最大的子序列的第一个元素肯定是正数
+因为元素有正有负，因此子序列的最大和一定大于0
 */
 int MaxSubSum3(int *arr,int len)
 {
@@ -105,9 +109,9 @@ int MaxSubSum3(int *arr,int len)
 		CurSum += arr[i];
 		if(CurSum > MaxSum)
 			MaxSum = CurSum;
-		//����ۼӺͳ���С��0�������
-		//������������п϶������ܰ���ǰ���Ԫ�أ�
-		//��ʱ���ۼӺ���0�����¸�Ԫ�����¿�ʼ�ۼ�
+		//如果累加和出现小于0的情况，
+		//则和最大的子序列肯定不可能包含前面的元素，
+		//这时将累加和置0，从下个元素重新开始累加
 		if(CurSum < 0)
 			CurSum = 0;
 	}
@@ -118,6 +122,6 @@ int MaxSubSum3(int *arr,int len)
 int main()
 {
 	int arr[] = {2,4,-7,5,2,-1,2,-4,3};
-	printf("�����е�����Ϊ��%d\n",MaxSubSum2_1(arr,9));
+	printf("子序列的最大和为：%d\n",MaxSubSum2_1(arr,9));
 	return 0;
 }

@@ -21,7 +21,7 @@ bool FindTwoNumSum(int *A,int len,int sum,int *a,int *b)
 	for(i=0;i<len;i++)
 	{
 		if(A[i]>sum)
-			break;
+			continue;
 		if(B[A[i]] == false)
 			B[sum-A[i]] = true;
 		else

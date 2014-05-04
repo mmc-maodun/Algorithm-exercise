@@ -34,7 +34,7 @@ bool FindTwoNumSum(int *A,int len,int sum,int *a,int *b)
 		}
 	}
 	free(B);
-	B = NULL;
+	B = NULL；
 	return false;
 }
 

@@ -1,5 +1,6 @@
 #include<stdio.h>
 #include<stdlib.h>
+#include<stdbool.h>
 
 typedef int ElemType;
 typedef struct BTNode 
@@ -9,10 +10,10 @@ typedef struct BTNode
 	struct BTNode *right;
 }BTNode,*BTree;
 
-bool CanReBuild;	//用来标示是否能够重构二叉树
+bool CanReBuild;	//锟斤拷锟斤拷锟斤拷示锟角凤拷锟杰癸拷锟截癸拷锟斤拷锟斤拷锟斤拷
 
 /*
-pre为前序遍历数组，inv为中序遍历数组，len为数组长度，重构二叉树*ppTree
+pre为前锟斤拷锟斤拷锟斤拷锟斤拷锟介，inv为锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟介，len为锟斤拷锟介长锟饺ｏ拷锟截癸拷锟斤拷锟斤拷锟斤拷*ppTree
 */
 void RebuildBinaryTree(BTree *ppTree,int *pre,int *inv,int len)
 {
@@ -21,24 +22,24 @@ void RebuildBinaryTree(BTree *ppTree,int *pre,int *inv,int len)
 		CanReBuild = false;
 		return ;
 	}
-	//该处作为递归的出口，不能将CanReBuild置为false，否则会永远输出No
-	//另外，也可以将此处的判断去掉，而在后面两个递归处加上对长度i和len-i-1是否大于0的判断
+	//锟矫达拷锟斤拷为锟捷癸拷锟侥筹拷锟节ｏ拷锟斤拷锟杰斤拷CanReBuild锟斤拷为false锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷远锟斤拷锟斤拷No
+	//锟斤拷锟解，也锟斤拷锟皆斤拷锟剿达拷锟斤拷锟叫讹拷去锟斤拷锟斤拷锟斤拷锟节猴拷锟斤拷锟斤拷锟斤拷锟捷归处锟斤拷锟较对筹拷锟斤拷i锟斤拷len-i-1锟角凤拷锟斤拷锟斤拷0锟斤拷锟叫讹拷
 	if(len < 1)
 		return ;
 
-	//在inv数组中找出与pre[0]相等的元素，从而确定左右子树的范围
+	//锟斤拷inv锟斤拷锟斤拷锟斤拷锟揭筹拷锟斤拷pre[0]锟斤拷锟饺碉拷元锟截ｏ拷锟接讹拷确锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟侥凤拷围
 	int i;
 	for(i=0;i<len;i++)
 		if(pre[0] == inv[i])
 			break;
-	//如果遍历inv结束都没有找到与pre[0]相等的值，则不能重构二叉树
+	//锟斤拷锟斤拷锟斤拷锟斤拷inv锟斤拷锟斤拷锟斤拷没锟斤拷锟揭碉拷锟斤拷pre[0]锟斤拷锟饺碉拷值锟斤拷锟斤拷锟斤拷锟斤拷锟截癸拷锟斤拷锟斤拷锟斤拷
 	if(i >= len)
 	{
 		CanReBuild = false;
 		return ;
 	}
 
-	//构建每个子树的根节点
+	//锟斤拷锟斤拷每锟斤拷锟斤拷锟斤拷锟侥革拷锟节碉拷
 	*ppTree = (BTree)malloc(sizeof(BTNode));
 	if(*ppTree == NULL)
 		exit(EXIT_FAILURE);
@@ -46,7 +47,7 @@ void RebuildBinaryTree(BTree *ppTree,int *pre,int *inv,int len)
 	(*ppTree)->left = NULL;	
 	(*ppTree)->right = NULL;
 
-	//递归构建每个根节点的左右子树
+	//锟捷归构锟斤拷每锟斤拷锟斤拷锟节碉拷锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷
 	RebuildBinaryTree(&(*ppTree)->left,pre+1,inv,i);
 	RebuildBinaryTree(&(*ppTree)->right,pre+i+1,inv+i+1,len-i-1);	
 }

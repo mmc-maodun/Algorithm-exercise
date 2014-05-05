@@ -49,5 +49,7 @@ int main()
 	char *dest = ReplaceBlank(str);
 	if(dest != NULL)
 		puts(dest);
+	free(dest);
+	dest = NULL;
 	return 0;
 }

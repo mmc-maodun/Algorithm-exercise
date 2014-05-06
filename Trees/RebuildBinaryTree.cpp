@@ -10,10 +10,10 @@ typedef struct BTNode
 	struct BTNode *right;
 }BTNode,*BTree;
 
-bool CanReBuild;	//ÓÃÀ´±êÊ¾ÊÇ·ñÄÜ¹»ÖØ¹¹¶ş²æÊ÷
+bool CanReBuild;	//ç”¨æ¥æ ‡ç¤ºæ˜¯å¦èƒ½å¤Ÿé‡æ„äºŒå‰æ ‘
 
 /*
-preÎªÇ°Ğò±éÀúÊı×é£¬invÎªÖĞĞò±éÀúÊı×é£¬lenÎªÊı×é³¤¶È£¬ÖØ¹¹¶ş²æÊ÷*ppTree
+preä¸ºå‰åºéå†æ•°ç»„ï¼Œinvä¸ºä¸­åºéå†æ•°ç»„ï¼Œlenä¸ºæ•°ç»„é•¿åº¦ï¼Œé‡æ„äºŒå‰æ ‘*ppTree
 */
 void RebuildBinaryTree(BTree *ppTree,int *pre,int *inv,int len)
 {
@@ -22,24 +22,24 @@ void RebuildBinaryTree(BTree *ppTree,int *pre,int *inv,int len)
 		CanReBuild = false;
 		return ;
 	}
-	//¸Ã´¦×÷Îªµİ¹éµÄ³ö¿Ú£¬²»ÄÜ½«CanReBuildÖÃÎªfalse£¬·ñÔò»áÓÀÔ¶Êä³öNo
-	//ÁíÍâ£¬Ò²¿ÉÒÔ½«´Ë´¦µÄÅĞ¶ÏÈ¥µô£¬¶øÔÚºóÃæÁ½¸öµİ¹é´¦¼ÓÉÏ¶Ô³¤¶ÈiºÍlen-i-1ÊÇ·ñ´óÓÚ0µÄÅĞ¶Ï
+	//è¯¥å¤„ä½œä¸ºé€’å½’çš„å‡ºå£ï¼Œä¸èƒ½å°†CanReBuildç½®ä¸ºfalseï¼Œå¦åˆ™ä¼šæ°¸è¿œè¾“å‡ºNo
+	//å¦å¤–ï¼Œä¹Ÿå¯ä»¥å°†æ­¤å¤„çš„åˆ¤æ–­å»æ‰ï¼Œè€Œåœ¨åé¢ä¸¤ä¸ªé€’å½’å¤„åŠ ä¸Šå¯¹é•¿åº¦iå’Œlen-i-1æ˜¯å¦å¤§äº0çš„åˆ¤æ–­
 	if(len < 1)
 		return ;
 
-	//ÔÚinvÊı×éÖĞÕÒ³öÓëpre[0]ÏàµÈµÄÔªËØ£¬´Ó¶øÈ·¶¨×óÓÒ×ÓÊ÷µÄ·¶Î§
+	//åœ¨invæ•°ç»„ä¸­æ‰¾å‡ºä¸pre[0]ç›¸ç­‰çš„å…ƒç´ ï¼Œä»è€Œç¡®å®šå·¦å³å­æ ‘çš„èŒƒå›´
 	int i;
 	for(i=0;i<len;i++)
 		if(pre[0] == inv[i])
 			break;
-	//Èç¹û±éÀúinv½áÊø¶¼Ã»ÓĞÕÒµ½Óëpre[0]ÏàµÈµÄÖµ£¬Ôò²»ÄÜÖØ¹¹¶ş²æÊ÷
+	//å¦‚æœéå†invç»“æŸéƒ½æ²¡æœ‰æ‰¾åˆ°ä¸pre[0]ç›¸ç­‰çš„å€¼ï¼Œåˆ™ä¸èƒ½é‡æ„äºŒå‰æ ‘
 	if(i >= len)
 	{
 		CanReBuild = false;
 		return ;
 	}
 
-	//¹¹½¨Ã¿¸ö×ÓÊ÷µÄ¸ù½Úµã
+	//æ„å»ºæ¯ä¸ªå­æ ‘çš„æ ¹èŠ‚ç‚¹
 	*ppTree = (BTree)malloc(sizeof(BTNode));
 	if(*ppTree == NULL)
 		exit(EXIT_FAILURE);
@@ -47,7 +47,7 @@ void RebuildBinaryTree(BTree *ppTree,int *pre,int *inv,int len)
 	(*ppTree)->left = NULL;	
 	(*ppTree)->right = NULL;
 
-	//µİ¹é¹¹½¨Ã¿¸ö¸ù½ÚµãµÄ×óÓÒ×ÓÊ÷
+	//é€’å½’æ„å»ºæ¯ä¸ªæ ¹èŠ‚ç‚¹çš„å·¦å³å­æ ‘
 	RebuildBinaryTree(&(*ppTree)->left,pre+1,inv,i);
 	RebuildBinaryTree(&(*ppTree)->right,pre+i+1,inv+i+1,len-i-1);	
 }

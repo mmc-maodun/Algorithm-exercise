@@ -31,6 +31,30 @@ pNode ReverseList(pNode pHead)
 	return pPre;
 }
 
+/*
+递归实现反转链表，返回翻转后的头结点
+*/
+pNode ReverseListRecursivly(pNode pPre,pNode pCur)
+{
+	if(pCur == NULL)
+		return NULL;
+	if(pCur->next == NULL)
+	{
+		pCur->next = pPre;
+		return pCur;
+	}
+
+	pNode pNext = pCur->next;
+	pCur->next = pPre;
+	pNode pNewHead = ReverseListRecursivly(pCur,pNext);
+	return pNewHead;
+}
+
+pNode ReverseList2(pNode pHead)
+{
+	return ReverseListRecursivly(NULL,pHead);
+}
+
 int main()
 {
 	int n;
@@ -61,7 +85,7 @@ int main()
 			}
 		}
 
-		pNode pNewHead = ReverseList(pHead);
+		pNode pNewHead = ReverseList2(pHead);
 		if(pNewHead == NULL)
 			printf("NULL\n");
 		else

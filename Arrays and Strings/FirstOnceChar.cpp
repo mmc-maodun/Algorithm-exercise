@@ -1,6 +1,9 @@
 #include<stdio.h>
 #include<string.h>
 
+/*
+返回第一个出现一次的字符
+*/
 char FirstOnceChar(char *str)
 {
 	if(str == NULL)
@@ -10,11 +13,22 @@ char FirstOnceChar(char *str)
 	memset(hashtable,0,sizeof(hashtable));
 	char *pCur = str;
 	while(*pCur != '\0')
-		hashtable[(int)(*(pCur++))]++;
+	{
+		if(*pCur<=127)
+			hashtable[*(pCur++)]++;
+		else
+			hashtable[*(pCur++)+256]++;
+	}
 
 	while(*str != '\0')
 	{
-		if(hashtable[(int)(*str)] == 1)
+		int index;
+		if(*str<=127)
+			index = *str;
+		else
+			index = *str+256;
+
+		if(hashtable[index] == 1)
 			return *str;
 		else
 			str++;
@@ -22,6 +36,9 @@ char FirstOnceChar(char *str)
 	return '\0';
 }
 
+/*
+返回第一个出现一次的字符的下标
+*/
 int IndexOfFirstOnceChar(char *str)
 {
 	if(str == NULL)
@@ -32,11 +49,24 @@ int IndexOfFirstOnceChar(char *str)
 	memset(hashtable,0,sizeof(hashtable));
 	int i;
 	for(i=0;i<len;i++)
-		hashtable[str[i]]++;
+	{
+		if(str[i]<=127)
+			hashtable[str[i]]++;
+		else
+			hashtable[str[i]+256]++;
+	}
 
 	for(i=0;i<len;i++)
-		if(hashtable[str[i]] == 1)
+	{
+		int index;
+		if(str[i]<=127)
+			index = str[i];
+		else
+			index = str[i]+256;
+
+		if(hashtable[index] == 1)
 			return i;
+	}
 	return -1;
 }
 

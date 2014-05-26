@@ -14,7 +14,7 @@ char FirstOnceChar(char *str)
 	char *pCur = str;
 	while(*pCur != '\0')
 	{
-		if(*pCur<=127)
+		if(*pCur>=0)
 			hashtable[*(pCur++)]++;
 		else
 			hashtable[*(pCur++)+256]++;
@@ -23,7 +23,7 @@ char FirstOnceChar(char *str)
 	while(*str != '\0')
 	{
 		int index;
-		if(*str<=127)
+		if(*str>=0)
 			index = *str;
 		else
 			index = *str+256;
@@ -50,7 +50,7 @@ int IndexOfFirstOnceChar(char *str)
 	int i;
 	for(i=0;i<len;i++)
 	{
-		if(str[i]<=127)
+		if(str[i]>=0)
 			hashtable[str[i]]++;
 		else
 			hashtable[str[i]+256]++;
@@ -59,7 +59,7 @@ int IndexOfFirstOnceChar(char *str)
 	for(i=0;i<len;i++)
 	{
 		int index;
-		if(str[i]<=127)
+		if(str[i]>=0)
 			index = str[i];
 		else
 			index = str[i]+256;
